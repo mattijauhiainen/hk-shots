@@ -1,11 +1,13 @@
 :root {
+  --background-color: #242424;
+
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: var(--background-color);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -72,9 +74,37 @@ h1 {
 
 .photo-grid img {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
+
+#expanded-photo-container {
+  position: absolute;
+  inset: 0;
+  display: none;
+  background: var(--background-color);
+}
+
+#expanded-photo-container.visible {
+  display: block;
+}
+
+#expanded-photo-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  view-transition-name: photo;
+}
+
+::view-transition-old(photo),
+::view-transition-new(photo) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-image-pair(photo) {
+  isolation: none;
+}
+
