@@ -3,16 +3,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const $expandedPhoto = $photoContainer.querySelector("img")!;
   const $thumbnailElements = document.querySelectorAll(".photo-grid a");
 
-  function handleThumbnailClick($thumbnailElement: Element) {
+  async function handleThumbnailClick($thumbnailElement: Element) {
     $expandedPhoto.src = $thumbnailElement
       .getAttribute("href")!
       .replace("#", "");
     $expandedPhoto.alt = $thumbnailElement.getAttribute("alt")!;
+    await new Promise<void>((resolve) => {
+      $expandedPhoto.onload = () => {
+        console.log("Image loaded");
+        resolve();
+      };
+    });
+
     const $thumbnail = $thumbnailElement.querySelector("img")!;
     $thumbnail.style.viewTransitionName = "photo";
     document.startViewTransition(() => {
       $thumbnail.style.viewTransitionName = "";
-      $photoContainer.classList.add("visible");
+      $photoContainer.show();
     });
   }
   function hidePhoto() {
@@ -27,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const $thumbnail = $thumbnailElement!.querySelector("img")!;
     const transition = document.startViewTransition(() => {
       // Hide the thing
-      $photoContainer.classList.remove("visible");
+      $photoContainer.close();
       $thumbnail.style.viewTransitionName = "photo";
     });
     transition.finished.finally(() => {

@@ -29,6 +29,10 @@ body {
   padding-top: 1.5em;
 }
 
+body:has(dialog[open]) {
+  overflow: hidden;
+}
+
 h1 {
   margin: 0;
   font-size: 3.2em;
@@ -82,13 +86,14 @@ h1 {
 
 #expanded-photo-container {
   position: absolute;
-  inset: 0;
-  display: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   background: var(--background-color);
-}
-
-#expanded-photo-container.visible {
-  display: block;
 }
 
 #expanded-photo-container img {
