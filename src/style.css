@@ -124,21 +124,39 @@ h1 {
   overflow: clip;
 }
 
-/* The old view is the thumbnail */
-::view-transition-old(photo) {
-  /* Maintain the aspect ratio of the view,
-  by shrinking it to fit within the bounds of the element */
-  object-fit: contain;
-}
-
-/* The new view is the full image */
-::view-transition-new(photo) {
-  /* Maintain the aspect ratio of the view,
-  by growing it to cover the bounds of the element */
-  object-fit: cover;
-}
-
 ::view-transition-image-pair(photo) {
   isolation: none;
+}
+
+html:active-view-transition-type(expand) {
+/* The old view is the thumbnail */
+  &::view-transition-old(photo) {
+    /* Maintain the aspect ratio of the view,
+    by shrinking it to fit within the bounds of the element */
+    object-fit: contain;
+  }
+  
+  /* The new view is the full image */
+  &::view-transition-new(photo) {
+    /* Maintain the aspect ratio of the view,
+    by growing it to cover the bounds of the element */
+    object-fit: cover;
+  }
+}
+
+html:active-view-transition-type(shrink) {
+/* The old view is the full image */
+  &::view-transition-old(photo) {
+    /* Maintain the aspect ratio of the view,
+    by growing it to cover the bounds of the element */
+    object-fit: cover;
+  }
+  
+  /* The new view is the thumbnail */
+  &::view-transition-new(photo) {
+    /* Maintain the aspect ratio of the view,
+    by shrinking it to fit within the bounds of the element */
+    object-fit: contain;
+  }
 }
 
