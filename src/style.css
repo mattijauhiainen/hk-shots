@@ -38,8 +38,6 @@ a:hover {
   }
 }
 
-
-
 body {
   margin: 0;
 }
@@ -53,8 +51,6 @@ h1 {
   font-size: 3.2em;
   line-height: 1;
 }
-
-
 
 .page-title {
   text-align: center;
@@ -114,6 +110,10 @@ h1 {
   height: auto;
   object-fit: contain;
   view-transition-name: photo;
+}
+
+#expanded-photo-container figcaption {
+  padding: 0.5em;
 }
 
 ::view-transition-old(photo),
