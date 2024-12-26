@@ -1,5 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const $photoContainer = document.querySelector("#expanded-photo-container")!;
+  const $photoContainer = document.querySelector<HTMLDialogElement>(
+    "#expanded-photo-container"
+  )!;
+  $photoContainer.close();
   const $expandedPhoto = $photoContainer.querySelector("img")!;
   const $thumbnailElements = document.querySelectorAll(".photo-grid a");
 
@@ -12,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     $thumbnail.style.viewTransitionName = "photo";
     document.startViewTransition(() => {
       $thumbnail.style.viewTransitionName = "";
-      $photoContainer.show();
+      $photoContainer.showModal();
     });
   }
 
