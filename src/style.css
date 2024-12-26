@@ -107,6 +107,22 @@ h1 {
 ::view-transition-new(photo) {
   animation: none;
   mix-blend-mode: normal;
+  height: 100%;
+  overflow: clip;
+}
+
+/* The old view is the thumbnail */
+::view-transition-old(photo) {
+  /* Maintain the aspect ratio of the view,
+  by shrinking it to fit within the bounds of the element */
+  object-fit: contain;
+}
+
+/* The new view is the full image */
+::view-transition-new(full-embed) {
+  /* Maintain the aspect ratio of the view,
+  by growing it to cover the bounds of the element */
+  object-fit: cover;
 }
 
 ::view-transition-image-pair(photo) {

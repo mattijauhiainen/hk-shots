@@ -8,13 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
       .getAttribute("href")!
       .replace("#", "");
     $expandedPhoto.alt = $thumbnailElement.getAttribute("alt")!;
-    await new Promise<void>((resolve) => {
-      $expandedPhoto.onload = () => {
-        console.log("Image loaded");
-        resolve();
-      };
-    });
-
     const $thumbnail = $thumbnailElement.querySelector("img")!;
     $thumbnail.style.viewTransitionName = "photo";
     document.startViewTransition(() => {
@@ -22,6 +15,22 @@ document.addEventListener("DOMContentLoaded", () => {
       $photoContainer.show();
     });
   }
+
+  function handleThumbnailHover($thumbnailElement: Element) {
+    const href = $thumbnailElement.getAttribute("href")!.replace("#", "");
+    if (
+      document.querySelectorAll(`link[rel="preload"][href="${href}"]`).length >
+      0
+    ) {
+      return;
+    }
+    const $preloadLink = document.createElement("link");
+    $preloadLink.rel = "preload";
+    $preloadLink.as = "image";
+    $preloadLink.href = href;
+    document.head.appendChild($preloadLink);
+  }
+
   function hidePhoto() {
     const targetLink = `#${$expandedPhoto.src.replace(
       window.origin + "/",
@@ -48,6 +57,9 @@ document.addEventListener("DOMContentLoaded", () => {
   $thumbnailElements.forEach(($thumbnailElement) => {
     $thumbnailElement.addEventListener("click", (_event) => {
       handleThumbnailClick($thumbnailElement);
+    });
+    $thumbnailElement.addEventListener("mouseover", (_event) => {
+      handleThumbnailHover($thumbnailElement);
     });
   });
 });
