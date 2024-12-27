@@ -4,7 +4,8 @@ const $photos: HTMLElement[] = photoData.map((photo) => {
   return createThumbnail(
     photo.filename,
     `/images/thumbnails/${photo.filename}`,
-    photo.alt
+    photo.alt,
+    photo.isVertical ?? false
   );
 });
 
@@ -20,12 +21,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const $expandedPhotoCaption = $photoContainer.querySelector("figcaption")!;
   const $thumbnailElements = document.querySelectorAll(".photo-grid a");
 
-  async function handleThumbnailClick($thumbnailElement: Element) {
+  function handleThumbnailClick($thumbnailElement: Element) {
     $expandedPhoto.src =
       "images/" + $thumbnailElement.getAttribute("href")!.replace("#", "");
     $expandedPhoto.alt = $thumbnailElement.getAttribute("alt")!;
     $expandedPhoto.dataset.filename =
       $thumbnailElement.getAttribute("data-filename")!;
+    $expandedPhoto.classList.remove("vertical");
+    $expandedPhoto.classList.remove("horizontal");
+    if ($thumbnailElement.getAttribute("data-is-vertical") === "true") {
+      $expandedPhoto.classList.add("vertical");
+    } else {
+      $expandedPhoto.classList.add("horizontal");
+    }
     $expandedPhotoCaption.textContent = $thumbnailElement
       .querySelector("img")!
       .getAttribute("alt")!;
@@ -90,11 +98,12 @@ document.addEventListener("DOMContentLoaded", () => {
 function createThumbnail(
   filename: string,
   fullPath: string,
-  altText: string
+  altText: string,
+  isVertical: boolean
 ): HTMLLIElement {
   const li = document.createElement("li");
   li.innerHTML = `
-			<a href="#${filename}" data-filename="${filename}">
+			<a href="#${filename}" data-filename="${filename}" data-is-vertical="${isVertical}">
 				<img
 					src="${fullPath}"
 					alt="${altText}"

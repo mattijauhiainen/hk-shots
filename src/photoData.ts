@@ -2,12 +2,13 @@ type Photo = {
   filename: string;
   alt: string;
   caption: string;
+  isVertical?: boolean;
 };
 export const photoData: Photo[] = [
   {
     filename: "austin-taxis.avif",
-    alt: "Taxis in intersection in Austin, Kowloon",
-    caption: "Taxis in intersection in Austin, Kowloon",
+    alt: "Taxis in an intersection in Austin, Kowloon",
+    caption: "Taxis in an intersection in Austin, Kowloon",
   },
   {
     filename: "ham-tin-lanterns.avif",
@@ -18,6 +19,7 @@ export const photoData: Photo[] = [
     filename: "jordan-minibus.avif",
     alt: "Minibus in Jordan, Kowloon",
     caption: "Minibus in Jordan, Kowloon",
+    isVertical: true,
   },
   {
     filename: "jordan-school.avif",
@@ -28,6 +30,7 @@ export const photoData: Photo[] = [
     filename: "lamma-lizard.avif",
     alt: "Man with a pet lizard, Lamma Island",
     caption: "Man with a pet lizard, Lamma Island",
+    isVertical: true,
   },
   {
     filename: "mei-foo-icc.avif",
@@ -48,6 +51,7 @@ export const photoData: Photo[] = [
     filename: "taxis-tst.avif",
     alt: "Taxis at night in Tsim Sha Tsui, Kowloon",
     caption: "Taxis at night in Tsim Sha Tsui, Kowloon",
+    isVertical: true,
   },
   {
     filename: "victoria-harbour-buoy.avif",

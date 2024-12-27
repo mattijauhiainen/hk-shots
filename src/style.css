@@ -99,6 +99,7 @@ h1 {
   background: var(--background-color);
   display: none;
   place-content: center;
+  overflow: hidden;
 }
 
 #expanded-photo-container[open] {
@@ -106,14 +107,30 @@ h1 {
 }
 
 #expanded-photo-container img {
-  width: 100%;
-  height: auto;
   object-fit: contain;
   view-transition-name: photo;
 }
 
+#expanded-photo-container img.horizontal {
+  width: 100vw;
+  height: auto;
+}
+
+#expanded-photo-container img.vertical {
+  height: 100vh;
+  width: auto;
+}
+
 #expanded-photo-container figcaption {
   padding: 0.5em;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  /* 
+    Give the caption its own transition name so that it appears
+    above the image during the transition
+   */
+  view-transition-name: figcaption;
 }
 
 ::view-transition-old(photo),
