@@ -17,18 +17,28 @@ export class ExpandedPhoto {
     this.#thumbnail = thumbnail;
     this.#imageElement.src = thumbnail.fullSizeImagePath;
     this.#imageElement.alt = thumbnail.altAttribute;
-    this.#captionElement.textContent = thumbnail.altAttribute;
+    this.#captionElement.textContent =
+      thumbnail.altAttribute + " 2024 Matti Jauhiainen. All rights reserved";
     this.#updatePhotoOrientation();
   }
 
   showModal() {
+    // Prevent body scroll when dialog is open by making body fixed and setting
+    // its top to current scroll top
+    const scrollY = window.scrollY;
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
     this.#element.showModal();
   }
 
   #closeFullImage() {
     const transition = document.startViewTransition({
       update: () => {
-        // Hide the dialog
+        // Restore body scroll and set scroll to previous position
+        const scrollY = document.body.style.top;
+        document.body.style.position = "";
+        document.body.style.top = "";
+        window.scrollTo(0, parseInt(scrollY || "0") * -1);
         this.#element.close();
         this.#thumbnail!.viewTransitionName = "photo";
       },
