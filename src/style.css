@@ -1,5 +1,6 @@
 :root {
   --background-color: #242424;
+  --overlay-background-color: rgba(0, 0, 0, 0.5);
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -29,6 +30,7 @@ a:hover {
   :root {
     --text-color: #213547;
     --background-color: #ffffff;
+    --overlay-background-color: rgba(255, 255, 255, 0.5);
   }
   a:hover {
     color: #747bff;
@@ -132,10 +134,10 @@ h1 {
   padding: 0.5em;
   position: absolute;
   bottom: 0;
-  left: 0;
-  border-top-right-radius: 4px;
+  right: 0;
+  border-top-left-radius: 4px;
   /* background: rgba(0, 0, 0, 0.5); */
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--overlay-background-color);
   /* 
     Give the caption its own transition name so that it appears
     above the image during the transition
