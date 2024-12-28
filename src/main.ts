@@ -34,7 +34,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const expandedPhoto = new ExpandedPhoto(
     document.querySelector<HTMLDialogElement>("#expanded-photo-container")!
   );
-  Array.from(document.querySelectorAll<HTMLLinkElement>(".photo-grid a")).map(
-    ($thumbnailElement) => new Thumbnail($thumbnailElement, expandedPhoto)
-  );
+  const thumbnails = Array.from(
+    document.querySelectorAll<HTMLLinkElement>(".photo-grid a")
+  ).map(($thumbnailElement) => new Thumbnail($thumbnailElement, expandedPhoto));
+  if (window.location.hash) {
+    // Remove the # character
+    const filenameFromHash = window.location.hash.slice(1);
+    thumbnails
+      .find((thumbnail) => thumbnail.filename === filenameFromHash)
+      ?.displayFullImage();
+  }
 });

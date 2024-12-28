@@ -13,11 +13,15 @@ export class Thumbnail {
       "mouseover",
       this.#preloadFullImage.bind(this)
     );
-    this.#element.addEventListener("click", this.#displayFullImage.bind(this));
+    this.#element.addEventListener("click", this.displayFullImage.bind(this));
+  }
+
+  get filename() {
+    return this.#element.getAttribute("data-filename")!;
   }
 
   get fullSizeImagePath() {
-    return `/images/${this.#element.getAttribute("data-filename")!}`;
+    return `/images/${this.filename}`;
   }
 
   get altAttribute() {
@@ -51,7 +55,7 @@ export class Thumbnail {
     document.head.appendChild($preloadLink);
   }
 
-  #displayFullImage() {
+  displayFullImage() {
     // Update the expanded photo to contain the clicked photo
     this.#expandedPhoto.photo = this;
 

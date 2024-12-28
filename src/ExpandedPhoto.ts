@@ -34,6 +34,9 @@ export class ExpandedPhoto {
   #closeFullImage() {
     const transition = document.startViewTransition({
       update: () => {
+        // Setting the location.hash will scroll to document top,
+        // this needs to happen before restoring the body scroll
+        window.location.hash = "";
         // Restore body scroll and set scroll to previous position
         const scrollY = document.body.style.top;
         document.body.style.position = "";
