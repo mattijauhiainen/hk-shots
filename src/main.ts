@@ -1,5 +1,7 @@
 import { ExpandedPhoto } from "./ExpandedPhoto";
+import { LeftArrow } from "./LeftArrow";
 import { photoData } from "./photoData";
+import { RightArrow } from "./RightArrow";
 import { Thumbnail } from "./Thumbnail";
 
 const $photos: HTMLElement[] = photoData.map((photo) => {
@@ -30,6 +32,8 @@ function createThumbnail(
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  // TODO: Animate also on first load somehow
+  // TODO: Handle esc when dialog is open
   document.querySelector(".photo-grid")!.append(...$photos);
   const expandedPhoto = new ExpandedPhoto(
     document.querySelector<HTMLDialogElement>("#expanded-photo-container")!
@@ -37,11 +41,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const thumbnails = Array.from(
     document.querySelectorAll<HTMLLinkElement>(".photo-grid a")
   ).map(($thumbnailElement) => new Thumbnail($thumbnailElement, expandedPhoto));
+  new RightArrow(thumbnails, expandedPhoto);
+  new LeftArrow(thumbnails, expandedPhoto);
   if (window.location.hash) {
     // Remove the # character
     const filenameFromHash = window.location.hash.slice(1);
     thumbnails
       .find((thumbnail) => thumbnail.filename === filenameFromHash)
-      ?.displayFullImage();
+      ?.displayFullImage({ skipTransition: true });
   }
 });

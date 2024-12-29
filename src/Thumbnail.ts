@@ -32,10 +32,6 @@ export class Thumbnail {
     return this.#element.getAttribute("data-is-vertical") === "true";
   }
 
-  set onClick(callback: (element: Thumbnail) => void) {
-    this.#element.addEventListener("click", () => callback(this));
-  }
-
   set viewTransitionName(name: string) {
     this.#imageElement.style.viewTransitionName = name;
   }
@@ -55,18 +51,23 @@ export class Thumbnail {
     document.head.appendChild($preloadLink);
   }
 
-  displayFullImage() {
+  displayFullImage({ skipTransition = false } = {}) {
     // Update the expanded photo to contain the clicked photo
     this.#expandedPhoto.photo = this;
 
     // Set the transition name and start the transition
     this.viewTransitionName = "photo";
-    document.startViewTransition({
-      update: () => {
-        this.viewTransitionName = "";
-        this.#expandedPhoto.showModal();
-      },
-      types: ["expand"],
-    });
+    const domUpdate = () => {
+      this.viewTransitionName = "";
+      this.#expandedPhoto.showModal();
+    };
+    if (skipTransition) {
+      domUpdate();
+    } else {
+      document.startViewTransition({
+        update: domUpdate,
+        types: ["expand"],
+      });
+    }
   }
 }

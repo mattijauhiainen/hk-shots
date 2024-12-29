@@ -24,6 +24,30 @@
   }
 }
 
+@keyframes fade-in {
+  from { opacity: 0; }
+}
+
+@keyframes fade-out {
+  to { opacity: 0; }
+}
+
+@keyframes slide-from-right {
+  from { transform: translateX(30px); }
+}
+
+@keyframes slide-to-left {
+  to { transform: translateX(-30px); }
+}
+
+@keyframes slide-from-left {
+  from { transform: translateX(-30px); }
+}
+
+@keyframes slide-to-right {
+  to { transform: translateX(30px); }
+}
+
 body {
   margin: 0;
 }
@@ -31,6 +55,14 @@ body {
 body:has(dialog[open]) {
   /* Scrollbar will disappear, add padding to account for it */
   padding-right: 15px;
+}
+
+/* 
+  Hide the body when dialog is open to avoid page below fading in 
+  when animating between photos
+*/
+body:has(dialog[open]) main {
+  display: none;
 }
 
 h1 {
@@ -102,7 +134,6 @@ h1 {
 
 #expanded-photo-container img {
   object-fit: contain;
-  view-transition-name: photo;
   /* 
     Make the image a block element to remove the weird 
     margin at the bottom 
@@ -135,16 +166,23 @@ h1 {
   view-transition-name: figcaption;
 }
 
-::view-transition-old(photo),
-::view-transition-new(photo) {
-  animation: none;
-  mix-blend-mode: normal;
-  height: 100%;
-  overflow: clip;
-}
+html:active-view-transition-type(expand),
+html:active-view-transition-type(shrink) {
+  #expanded-photo-container img {
+    view-transition-name: photo;
+  }
 
-::view-transition-image-pair(photo) {
-  isolation: none;
+  &::view-transition-old(photo),
+  &::view-transition-new(photo) {
+    animation: none;
+    mix-blend-mode: normal;
+    height: 100%;
+    overflow: clip;
+  }
+  
+  &::view-transition-image-pair(photo) {
+    isolation: none;
+  }
 }
 
 html:active-view-transition-type(expand) {
@@ -179,3 +217,35 @@ html:active-view-transition-type(shrink) {
   }
 }
 
+html:active-view-transition-type(forward),
+html:active-view-transition-type(backward) {
+  #expanded-photo-container {
+    view-transition-name: photo-container;
+  }
+}
+
+html:active-view-transition-type(forward) {
+  &::view-transition-old(photo-container) {
+    animation: 
+      90ms cubic-bezier(0.4, 0, 1, 1) both fade-out,
+      300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-to-left;
+  }
+  &::view-transition-new(photo-container) {
+    animation: 
+      210ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in,
+      300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-right;
+  }
+}
+
+html:active-view-transition-type(backward) {
+  &::view-transition-old(photo-container) {
+    animation: 
+      90ms cubic-bezier(0.4, 0, 1, 1) both fade-out,
+      300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-to-right;
+  }
+  &::view-transition-new(photo-container) {
+    animation: 
+      210ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in,
+      300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-left;
+  }
+}

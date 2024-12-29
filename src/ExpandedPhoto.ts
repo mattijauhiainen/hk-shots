@@ -22,33 +22,46 @@ export class ExpandedPhoto {
     this.#updatePhotoOrientation();
   }
 
+  get filename() {
+    return this.#thumbnail?.filename;
+  }
+
+  get isVisible() {
+    return !!this.#thumbnail;
+  }
+
   showModal() {
     // Prevent body scroll when dialog is open by making body fixed and setting
     // its top to current scroll top
     const scrollY = window.scrollY;
     document.body.style.position = "fixed";
     document.body.style.top = `-${scrollY}px`;
+    document.body.style.left = "0px";
+    document.body.style.right = "0px";
     this.#element.showModal();
   }
 
   #closeFullImage() {
     const transition = document.startViewTransition({
       update: () => {
+        const scrollY = document.body.style.top;
         // Setting the location.hash will scroll to document top,
         // this needs to happen before restoring the body scroll
         window.location.hash = "";
         // Restore body scroll and set scroll to previous position
-        const scrollY = document.body.style.top;
         document.body.style.position = "";
         document.body.style.top = "";
-        window.scrollTo(0, parseInt(scrollY || "0") * -1);
+        document.body.style.left = "";
+        document.body.style.right = "";
         this.#element.close();
         this.#thumbnail!.viewTransitionName = "photo";
+        window.scrollTo(0, parseInt(scrollY || "0") * -1);
       },
       types: ["shrink"],
     });
     transition.finished.finally(() => {
       this.#thumbnail!.viewTransitionName = "";
+      this.#thumbnail = undefined;
     });
   }
 
