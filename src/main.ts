@@ -32,6 +32,7 @@ function createThumbnail(
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
+  // TODO: Handle browser back and forward buttons
   document.querySelector(".photo-grid")!.append(...$photos);
   const expandedPhoto = new ExpandedPhoto(
     document.querySelector<HTMLDialogElement>("#expanded-photo-container")!

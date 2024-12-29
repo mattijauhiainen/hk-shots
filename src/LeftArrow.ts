@@ -25,11 +25,12 @@ export class LeftArrow {
       return;
     }
 
-    const previousIndex = currentIndex - 1;
+    const previousThumbnail = this.#thumbnails[currentIndex - 1];
+    history.pushState(null, "", `#${previousThumbnail.filename}`);
     document.startViewTransition({
       // @ts-expect-error
       update: () => {
-        this.#expandedPhoto.photo = this.#thumbnails[previousIndex];
+        this.#expandedPhoto.photo = previousThumbnail;
       },
       types: ["backward"],
     });

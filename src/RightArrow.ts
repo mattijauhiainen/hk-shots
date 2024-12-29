@@ -25,11 +25,12 @@ export class RightArrow {
       return;
     }
 
-    const nextIndex = (currentIndex + 1) % this.#thumbnails.length;
+    const nextThumbnail = this.#thumbnails[currentIndex + 1];
+    history.pushState(null, "", `#${nextThumbnail.filename}`);
     document.startViewTransition({
       // @ts-expect-error
       update: () => {
-        this.#expandedPhoto.photo = this.#thumbnails[nextIndex];
+        this.#expandedPhoto.photo = nextThumbnail;
       },
       types: ["forward"],
     });
