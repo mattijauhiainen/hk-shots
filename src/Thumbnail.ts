@@ -51,7 +51,7 @@ export class Thumbnail {
     document.head.appendChild($preloadLink);
   }
 
-  displayFullImage({ skipTransition = false } = {}) {
+  displayFullImage({ transitionType = "expand" } = {}) {
     // Update the expanded photo to contain the clicked photo
     this.#expandedPhoto.photo = this;
 
@@ -61,13 +61,9 @@ export class Thumbnail {
       this.viewTransitionName = "";
       this.#expandedPhoto.showModal();
     };
-    if (skipTransition) {
-      domUpdate();
-    } else {
-      document.startViewTransition({
-        update: domUpdate,
-        types: ["expand"],
-      });
-    }
+    return document.startViewTransition({
+      update: domUpdate,
+      types: [transitionType],
+    }).finished;
   }
 }

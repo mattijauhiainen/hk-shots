@@ -31,8 +31,7 @@ function createThumbnail(
   return li;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  // TODO: Animate also on first load somehow
+document.addEventListener("DOMContentLoaded", async () => {
   document.querySelector(".photo-grid")!.append(...$photos);
   const expandedPhoto = new ExpandedPhoto(
     document.querySelector<HTMLDialogElement>("#expanded-photo-container")!
@@ -42,11 +41,32 @@ document.addEventListener("DOMContentLoaded", () => {
   ).map(($thumbnailElement) => new Thumbnail($thumbnailElement, expandedPhoto));
   new RightArrow(thumbnails, expandedPhoto);
   new LeftArrow(thumbnails, expandedPhoto);
-  if (window.location.hash) {
-    // Remove the # character
-    const filenameFromHash = window.location.hash.slice(1);
-    thumbnails
-      .find((thumbnail) => thumbnail.filename === filenameFromHash)
-      ?.displayFullImage({ skipTransition: true });
+
+  const initialThumbnail = getInitialThumbnail(
+    thumbnails,
+    window.location.hash
+  );
+  if (initialThumbnail) {
+    initialThumbnail
+      .displayFullImage({ transitionType: "reload" })
+      .finally(() => {
+        // Show the main content after the transition has been executed
+        document.querySelector("main")!.style.visibility = "visible";
+      });
+  } else {
+    // If there was no initial thumbnail, show the main content immediately
+    document.querySelector("main")!.style.visibility = "visible";
   }
 });
+
+// If location hash contains a valid thumbnail name, return the thumbnail
+function getInitialThumbnail(
+  thumbnails: Thumbnail[],
+  hash: string
+): Thumbnail | undefined {
+  // Remove the # character from the hashed string
+  const filenameFromHash = hash.slice(1);
+  return thumbnails.find(
+    (thumbnail) => thumbnail.filename === filenameFromHash
+  );
+}

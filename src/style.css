@@ -57,6 +57,15 @@ body:has(dialog[open]) {
   padding-right: 15px;
 }
 
+main {
+  /* 
+    Start with the main content initially. main.ts will show it 
+    when the page is ready. (This is to avoid a flash of content
+    if the page loads into a full screen view of a photo)
+  */
+  visibility: hidden;
+}
+
 /* 
   Hide the body when dialog is open to avoid page below fading in 
   when animating between photos
