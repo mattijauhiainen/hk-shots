@@ -11,6 +11,7 @@ export class ExpandedPhoto {
     this.#imageElement = element.querySelector<HTMLImageElement>("img")!;
     this.#captionElement = element.querySelector<HTMLElement>("figcaption")!;
     this.#element.addEventListener("click", this.#closeFullImage.bind(this));
+    this.#element.addEventListener("keydown", this.#handleKeyDown.bind(this));
   }
 
   set photo(thumbnail: Thumbnail) {
@@ -72,6 +73,13 @@ export class ExpandedPhoto {
       this.#imageElement.classList.add("vertical");
     } else {
       this.#imageElement.classList.add("horizontal");
+    }
+  }
+
+  #handleKeyDown(event: KeyboardEvent) {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      this.#closeFullImage();
     }
   }
 }

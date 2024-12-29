@@ -33,7 +33,6 @@ function createThumbnail(
 
 document.addEventListener("DOMContentLoaded", () => {
   // TODO: Animate also on first load somehow
-  // TODO: Handle esc when dialog is open
   document.querySelector(".photo-grid")!.append(...$photos);
   const expandedPhoto = new ExpandedPhoto(
     document.querySelector<HTMLDialogElement>("#expanded-photo-container")!

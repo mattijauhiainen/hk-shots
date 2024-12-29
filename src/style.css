@@ -111,6 +111,7 @@ h1 {
 }
 
 #expanded-photo-container {
+  outline: none;
   position: absolute;
   margin: 0;
   padding: 0;
