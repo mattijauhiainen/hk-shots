@@ -13,7 +13,7 @@ export class Thumbnail {
       "mouseover",
       this.#preloadFullImage.bind(this)
     );
-    this.#element.addEventListener("click", this.displayFullImage.bind(this));
+    this.#element.addEventListener("click", () => this.displayFullImage());
   }
 
   get filename() {
@@ -62,6 +62,7 @@ export class Thumbnail {
       this.#expandedPhoto.showModal();
     };
     return document.startViewTransition({
+      // @ts-expect-error
       update: domUpdate,
       types: [transitionType],
     }).finished;

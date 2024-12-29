@@ -44,6 +44,7 @@ export class ExpandedPhoto {
 
   #closeFullImage() {
     const transition = document.startViewTransition({
+      // @ts-expect-error
       update: () => {
         const scrollY = document.body.style.top;
         // Setting the location.hash will scroll to document top,

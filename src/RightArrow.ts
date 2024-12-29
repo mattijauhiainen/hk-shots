@@ -27,6 +27,7 @@ export class RightArrow {
 
     const nextIndex = (currentIndex + 1) % this.#thumbnails.length;
     document.startViewTransition({
+      // @ts-expect-error
       update: () => {
         this.#expandedPhoto.photo = this.#thumbnails[nextIndex];
       },

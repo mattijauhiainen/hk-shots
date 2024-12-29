@@ -27,6 +27,7 @@ export class LeftArrow {
 
     const previousIndex = currentIndex - 1;
     document.startViewTransition({
+      // @ts-expect-error
       update: () => {
         this.#expandedPhoto.photo = this.#thumbnails[previousIndex];
       },
