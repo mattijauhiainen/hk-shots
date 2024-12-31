@@ -1,3 +1,4 @@
+import { router } from "./router";
 import type { Thumbnail } from "./Thumbnail";
 
 export class ExpandedPhoto {
@@ -10,16 +11,23 @@ export class ExpandedPhoto {
     this.#element = element;
     this.#imageElement = element.querySelector<HTMLImageElement>("img")!;
     this.#captionElement = element.querySelector<HTMLElement>("figcaption")!;
-    this.#element.addEventListener("click", this.#closeFullImage.bind(this));
+    this.#element.addEventListener("click", this.closeFullImage.bind(this));
     this.#element.addEventListener("keydown", this.#handleKeyDown.bind(this));
   }
 
-  set photo(thumbnail: Thumbnail) {
+  set photo(thumbnail: Thumbnail | undefined) {
     this.#thumbnail = thumbnail;
-    this.#imageElement.src = thumbnail.fullSizeImagePath;
-    this.#imageElement.alt = thumbnail.altAttribute;
+    if (this.#thumbnail === undefined) {
+      this.#imageElement.src = "";
+      this.#imageElement.alt = "";
+      this.#captionElement.textContent = "";
+      return;
+    }
+    this.#imageElement.src = this.#thumbnail.fullSizeImagePath;
+    this.#imageElement.alt = this.#thumbnail.altAttribute;
     this.#captionElement.textContent =
-      thumbnail.altAttribute + " 2024 Matti Jauhiainen. All rights reserved";
+      this.#thumbnail.altAttribute +
+      " 2024 Matti Jauhiainen. All rights reserved";
     this.#updatePhotoOrientation();
   }
 
@@ -42,14 +50,14 @@ export class ExpandedPhoto {
     this.#element.showModal();
   }
 
-  #closeFullImage() {
+  closeFullImage() {
     const transition = document.startViewTransition({
       // @ts-expect-error
       update: () => {
         const scrollY = document.body.style.top;
         // Setting the location.hash will scroll to document top,
         // this needs to happen before restoring the body scroll
-        window.location.hash = "";
+        router.push("");
         // Restore body scroll and set scroll to previous position
         document.body.style.position = "";
         document.body.style.top = "";
@@ -63,7 +71,7 @@ export class ExpandedPhoto {
     });
     transition.finished.finally(() => {
       this.#thumbnail!.viewTransitionName = "";
-      this.#thumbnail = undefined;
+      this.photo = undefined;
     });
   }
 
@@ -80,7 +88,8 @@ export class ExpandedPhoto {
   #handleKeyDown(event: KeyboardEvent) {
     if (event.key === "Escape") {
       event.preventDefault();
-      this.#closeFullImage();
+      event.stopPropagation();
+      this.closeFullImage();
     }
   }
 }

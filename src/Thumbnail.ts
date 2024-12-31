@@ -1,4 +1,5 @@
 import type { ExpandedPhoto } from "./ExpandedPhoto";
+import { router } from "./router";
 
 export class Thumbnail {
   #element: HTMLLinkElement;
@@ -13,7 +14,12 @@ export class Thumbnail {
       "mouseover",
       this.#preloadFullImage.bind(this)
     );
-    this.#element.addEventListener("click", () => this.displayFullImage());
+    this.#element.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      this.displayFullImage();
+      router.push(this.filename);
+    });
   }
 
   get filename() {
@@ -52,12 +58,11 @@ export class Thumbnail {
   }
 
   displayFullImage({ transitionType = "expand" } = {}) {
-    // Update the expanded photo to contain the clicked photo
-    this.#expandedPhoto.photo = this;
-
     // Set the transition name and start the transition
     this.viewTransitionName = "photo";
     const domUpdate = () => {
+      // Update the expanded photo to contain the clicked photo
+      this.#expandedPhoto.photo = this;
       this.viewTransitionName = "";
       this.#expandedPhoto.showModal();
     };

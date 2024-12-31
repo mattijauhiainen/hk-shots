@@ -2,6 +2,7 @@ import { ExpandedPhoto } from "./ExpandedPhoto";
 import { LeftArrow } from "./LeftArrow";
 import { photoData } from "./photoData";
 import { RightArrow } from "./RightArrow";
+import { router } from "./router";
 import { Thumbnail } from "./Thumbnail";
 
 const $photos: HTMLElement[] = photoData.map((photo) => {
@@ -32,7 +33,6 @@ function createThumbnail(
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-  // TODO: Handle browser back and forward buttons
   document.querySelector(".photo-grid")!.append(...$photos);
   const expandedPhoto = new ExpandedPhoto(
     document.querySelector<HTMLDialogElement>("#expanded-photo-container")!
@@ -58,6 +58,26 @@ document.addEventListener("DOMContentLoaded", async () => {
     // If there was no initial thumbnail, show the main content immediately
     document.querySelector("main")!.style.visibility = "visible";
   }
+  router.registerBackCallback((filename) => {
+    const thumbnail = thumbnails.find(
+      (thumbnail) => thumbnail.filename === filename
+    );
+    if (!thumbnail) {
+      expandedPhoto.closeFullImage();
+    } else {
+      thumbnail.displayFullImage({ transitionType: "backward" });
+    }
+  });
+  router.registerForwardCallback((filename) => {
+    const thumbnail = thumbnails.find(
+      (thumbnail) => thumbnail.filename === filename
+    );
+    if (!thumbnail) {
+      expandedPhoto.closeFullImage();
+    } else {
+      thumbnail.displayFullImage({ transitionType: "forward" });
+    }
+  });
 });
 
 // If location hash contains a valid thumbnail name, return the thumbnail

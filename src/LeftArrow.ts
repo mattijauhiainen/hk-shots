@@ -1,4 +1,5 @@
 import type { ExpandedPhoto } from "./ExpandedPhoto";
+import { router } from "./router";
 import type { Thumbnail } from "./Thumbnail";
 
 export class LeftArrow {
@@ -26,7 +27,7 @@ export class LeftArrow {
     }
 
     const previousThumbnail = this.#thumbnails[currentIndex - 1];
-    history.pushState(null, "", `#${previousThumbnail.filename}`);
+    router.push(previousThumbnail.filename);
     document.startViewTransition({
       // @ts-expect-error
       update: () => {
