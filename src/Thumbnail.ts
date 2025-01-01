@@ -43,15 +43,15 @@ export class Thumbnail {
   }
 
   #preloadFullImage() {
-    const href = `${window.origin}/${this.fullSizeImagePath}`;
+    const href = `${window.origin}${this.fullSizeImagePath}`;
     if (
-      document.querySelectorAll(`link[rel="preload"][href="${href}"]`).length >
+      document.querySelectorAll(`link[rel="prefetch"][href="${href}"]`).length >
       0
     ) {
       return;
     }
     const $preloadLink = document.createElement("link");
-    $preloadLink.rel = "preload";
+    $preloadLink.rel = "prefetch";
     $preloadLink.as = "image";
     $preloadLink.href = href;
     document.head.appendChild($preloadLink);
@@ -61,9 +61,9 @@ export class Thumbnail {
     // Set the transition name and start the transition
     this.viewTransitionName = "photo";
     const domUpdate = () => {
+      this.viewTransitionName = "";
       // Update the expanded photo to contain the clicked photo
       this.#expandedPhoto.photo = this;
-      this.viewTransitionName = "";
       this.#expandedPhoto.showModal();
     };
     return document.startViewTransition({
