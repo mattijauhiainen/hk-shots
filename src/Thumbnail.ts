@@ -38,6 +38,26 @@ export class Thumbnail {
     return this.#element.getAttribute("data-is-vertical") === "true";
   }
 
+  get width() {
+    const width = parseInt(this.#element.getAttribute("data-width") ?? "");
+    if (!(width > 0)) {
+      throw new Error("Invalid width");
+    }
+    return width;
+  }
+
+  get height() {
+    const height = parseInt(this.#element.getAttribute("data-height") ?? "");
+    if (!(height > 0)) {
+      throw new Error("Invalid height");
+    }
+    return height;
+  }
+
+  get aspectRatio() {
+    return `${this.width} / ${this.height}`;
+  }
+
   set viewTransitionName(name: string) {
     this.#imageElement.style.viewTransitionName = name;
   }
@@ -61,15 +81,18 @@ export class Thumbnail {
     // Set the transition name and start the transition
     this.viewTransitionName = "photo";
     const domUpdate = () => {
-      this.viewTransitionName = "";
       // Update the expanded photo to contain the clicked photo
       this.#expandedPhoto.photo = this;
       this.#expandedPhoto.showModal();
     };
-    return document.startViewTransition({
-      // @ts-expect-error
-      update: domUpdate,
-      types: [transitionType],
-    }).finished;
+    return document
+      .startViewTransition({
+        // @ts-expect-error
+        update: domUpdate,
+        types: [transitionType],
+      })
+      .finished.then(() => {
+        this.viewTransitionName = "";
+      });
   }
 }

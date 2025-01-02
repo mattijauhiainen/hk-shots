@@ -20,9 +20,11 @@ export class ExpandedPhoto {
     if (this.#thumbnail === undefined) {
       this.#imageElement.src = "";
       this.#imageElement.alt = "";
+      this.#imageElement.style.aspectRatio = "";
       this.#captionElement.textContent = "";
       return;
     }
+    this.#imageElement.style.aspectRatio = this.#thumbnail.aspectRatio;
     this.#imageElement.src = this.#thumbnail.fullSizeImagePath;
     this.#imageElement.alt = this.#thumbnail.altAttribute;
     this.#captionElement.textContent =

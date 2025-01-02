@@ -1,34 +1,37 @@
 import { ExpandedPhoto } from "./ExpandedPhoto";
 import { LeftArrow } from "./LeftArrow";
-import { photoData } from "./photoData";
+import { Photo, photoData } from "./photoData";
 import { RightArrow } from "./RightArrow";
 import { router } from "./router";
 import { Thumbnail } from "./Thumbnail";
 
 const $photos: HTMLElement[] = photoData.map((photo) => {
-  return createThumbnail(
-    photo.filename,
-    `/images/thumbnails/${photo.filename}`,
-    photo.alt,
-    photo.isVertical ?? false
-  );
+  return createThumbnail(photo);
 });
 
-function createThumbnail(
-  filename: string,
-  fullPath: string,
-  altText: string,
-  isVertical: boolean
-): HTMLLIElement {
+function createThumbnail({
+  filename,
+  alt,
+  width,
+  height,
+}: Photo): HTMLLIElement {
   const li = document.createElement("li");
+
+  const fullPath = `/images/thumbnails/${filename}`;
   li.innerHTML = `
-			<a href="#${filename}" data-filename="${filename}" data-is-vertical="${isVertical}">
-				<img
-					src="${fullPath}"
-					alt="${altText}"
-				/>
-			</a>
-		`;
+		<a 
+      href="#${filename}" 
+      data-filename="${filename}" 
+      data-is-vertical="${height > width}"
+      data-width="${width}"
+      data-height="${height}"
+    >
+			<img
+				src="${fullPath}"
+				alt="${alt}"
+			/>
+		</a>
+	`;
   return li;
 }
 

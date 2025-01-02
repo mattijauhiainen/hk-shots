@@ -96,20 +96,17 @@ h1 {
 }
 
 .photo-grid li {
-  /* 
-    Use padding to maintain 1.78 aspect ratio while the container 
-    width changes.
-  */
-  padding-top: 56.25%;
-  width: 100%;
-  position: relative;
+  display: block;
+}
+
+.photo-grid a {
+  /* TODO: Still has the inline margin for some reason */
+  display: block;
 }
 
 .photo-grid img {
-  position: absolute;
-  inset: 0;
   width: 100%;
-  height: 100%;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
   transition: transform 0.2s ease-in;
 }
@@ -153,12 +150,10 @@ h1 {
 
 #expanded-photo-container img.horizontal {
   width: 100vw;
-  height: auto;
 }
 
 #expanded-photo-container img.vertical {
   height: 100vh;
-  width: auto;
 }
 
 #expanded-photo-container figcaption {
@@ -167,7 +162,6 @@ h1 {
   bottom: 0;
   right: 0;
   border-top-left-radius: 4px;
-  /* background: rgba(0, 0, 0, 0.5); */
   background: var(--overlay-background-color);
   /* 
     Give the caption its own transition name so that it appears
@@ -189,7 +183,7 @@ html:active-view-transition-type(shrink) {
     height: 100%;
     overflow: clip;
   }
-  
+
   &::view-transition-image-pair(photo) {
     isolation: none;
   }
