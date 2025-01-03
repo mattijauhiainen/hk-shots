@@ -27,7 +27,8 @@ export class Thumbnail {
   }
 
   get fullSizeImagePath() {
-    return `/images/${this.filename}`;
+    const pathPrefix = import.meta.env.VITE_URL_PATH_SUFFIX ?? "";
+    return `${pathPrefix}/images/${this.filename}`;
   }
 
   get altAttribute() {

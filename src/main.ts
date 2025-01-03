@@ -17,7 +17,8 @@ function createThumbnail({
 }: Photo): HTMLLIElement {
   const li = document.createElement("li");
 
-  const fullPath = `/images/thumbnails/${filename}`;
+  const pathPrefix = import.meta.env.VITE_URL_PATH_SUFFIX ?? "";
+  const fullPath = `${pathPrefix}/images/thumbnails/${filename}`;
   li.innerHTML = `
 		<a 
       href="#${filename}" 
