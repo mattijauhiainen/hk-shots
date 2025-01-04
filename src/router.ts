@@ -2,6 +2,7 @@ class Router {
   #previousState = new Date();
   #backCallbacks: ((filename: string) => void)[] = [];
   #forwardCallbacks: ((filename: string) => void)[] = [];
+  #pushCallbacks: ((filename: string) => void)[] = [];
 
   constructor() {
     window.addEventListener("popstate", (event) => {
@@ -25,9 +26,14 @@ class Router {
     this.#forwardCallbacks.push(callback);
   }
 
+  registerOnPushCallback(callback: (filename: string) => void) {
+    this.#pushCallbacks.push(callback);
+  }
+
   push(filename: string) {
     this.#previousState = new Date();
     history.pushState(this.#previousState, "", "#" + filename);
+    this.#pushCallbacks.forEach((callback) => callback(filename));
   }
 }
 

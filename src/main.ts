@@ -82,6 +82,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       thumbnail.displayFullImage({ transitionType: "forward" });
     }
   });
+  router.registerOnPushCallback((filename) => {
+    const thumbnailIndex = thumbnails.findIndex(
+      (thumbnail) => thumbnail.filename === filename
+    );
+    thumbnails[thumbnailIndex + 1]?.preloadFullImage();
+    thumbnails[thumbnailIndex - 1]?.preloadFullImage();
+  });
 });
 
 // If location hash contains a valid thumbnail name, return the thumbnail

@@ -12,7 +12,7 @@ export class Thumbnail {
     this.#imageElement = $element.querySelector<HTMLImageElement>("img")!;
     this.#element.addEventListener(
       "mouseover",
-      this.#preloadFullImage.bind(this)
+      this.preloadFullImage.bind(this)
     );
     this.#element.addEventListener("click", (event) => {
       event.preventDefault();
@@ -63,7 +63,7 @@ export class Thumbnail {
     this.#imageElement.style.viewTransitionName = name;
   }
 
-  #preloadFullImage() {
+  preloadFullImage() {
     const href = `${window.origin}${this.fullSizeImagePath}`;
     if (
       document.querySelectorAll(`link[rel="prefetch"][href="${href}"]`).length >
