@@ -65,4 +65,10 @@ export const photoData: Photo[] = [
     width: 2000,
     height: 1333,
   },
+  {
+    width: 2000,
+    height: 1500,
+    filename: "lantau-sunset.avif",
+    alt: "Sun setting behind Lantau Island.",
+  },
 ];
