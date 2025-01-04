@@ -95,6 +95,18 @@ h1 {
   gap: 1em;
 }
 
+@media screen and (max-width: 960px) {
+  .photo-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .photo-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .photo-grid li {
   display: block;
 }
