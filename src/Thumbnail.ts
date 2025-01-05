@@ -78,14 +78,18 @@ export class Thumbnail {
     document.head.appendChild($preloadLink);
   }
 
-  displayFullImage({ transitionType = "expand" } = {}) {
+  displayFullImage({ transitionType = "expand", skipTransition = false } = {}) {
     // Set the transition name and start the transition
-    this.viewTransitionName = "photo";
+    if (!skipTransition) this.viewTransitionName = "photo";
     const domUpdate = () => {
       // Update the expanded photo to contain the clicked photo
       this.#expandedPhoto.photo = this;
       this.#expandedPhoto.showModal();
     };
+    if (skipTransition) {
+      domUpdate();
+      return Promise.resolve();
+    }
     return document
       .startViewTransition({
         // @ts-expect-error

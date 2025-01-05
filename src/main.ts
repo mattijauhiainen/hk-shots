@@ -62,24 +62,30 @@ document.addEventListener("DOMContentLoaded", async () => {
     // If there was no initial thumbnail, show the main content immediately
     document.querySelector("main")!.style.visibility = "visible";
   }
-  router.registerBackCallback((filename) => {
+  router.registerBackCallback((filename, { hasUAVisualTransition }) => {
     const thumbnail = thumbnails.find(
       (thumbnail) => thumbnail.filename === filename
     );
     if (!thumbnail) {
-      expandedPhoto.closeFullImage();
+      expandedPhoto.closeFullImage({ skipTransition: hasUAVisualTransition });
     } else {
-      thumbnail.displayFullImage({ transitionType: "backward" });
+      thumbnail.displayFullImage({
+        transitionType: "backward",
+        skipTransition: hasUAVisualTransition,
+      });
     }
   });
-  router.registerForwardCallback((filename) => {
+  router.registerForwardCallback((filename, { hasUAVisualTransition }) => {
     const thumbnail = thumbnails.find(
       (thumbnail) => thumbnail.filename === filename
     );
     if (!thumbnail) {
-      expandedPhoto.closeFullImage();
+      expandedPhoto.closeFullImage({ skipTransition: hasUAVisualTransition });
     } else {
-      thumbnail.displayFullImage({ transitionType: "forward" });
+      thumbnail.displayFullImage({
+        transitionType: "forward",
+        skipTransition: hasUAVisualTransition,
+      });
     }
   });
   router.registerOnPushCallback((filename) => {

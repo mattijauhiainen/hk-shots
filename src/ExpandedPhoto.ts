@@ -11,7 +11,7 @@ export class ExpandedPhoto {
     this.#element = element;
     this.#imageElement = element.querySelector<HTMLImageElement>("img")!;
     this.#captionElement = element.querySelector<HTMLElement>("figcaption")!;
-    this.#element.addEventListener("click", this.closeFullImage.bind(this));
+    this.#element.addEventListener("click", () => this.closeFullImage());
     this.#element.addEventListener("keydown", this.#handleKeyDown.bind(this));
   }
 
@@ -52,23 +52,29 @@ export class ExpandedPhoto {
     this.#element.showModal();
   }
 
-  closeFullImage() {
+  closeFullImage({ skipTransition = false } = {}) {
+    const domUpdate = () => {
+      const scrollY = document.body.style.top;
+      // Setting the location.hash will scroll to document top,
+      // this needs to happen before restoring the body scroll
+      router.push("");
+      // Restore body scroll and set scroll to previous position
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      this.#element.close();
+      if (!skipTransition) this.#thumbnail!.viewTransitionName = "photo";
+      window.scrollTo(0, parseInt(scrollY || "0") * -1);
+    };
+    if (skipTransition) {
+      domUpdate();
+      this.photo = undefined;
+    }
+
     const transition = document.startViewTransition({
       // @ts-expect-error
-      update: () => {
-        const scrollY = document.body.style.top;
-        // Setting the location.hash will scroll to document top,
-        // this needs to happen before restoring the body scroll
-        router.push("");
-        // Restore body scroll and set scroll to previous position
-        document.body.style.position = "";
-        document.body.style.top = "";
-        document.body.style.left = "";
-        document.body.style.right = "";
-        this.#element.close();
-        this.#thumbnail!.viewTransitionName = "photo";
-        window.scrollTo(0, parseInt(scrollY || "0") * -1);
-      },
+      update: domUpdate,
       types: ["shrink"],
     });
     transition.finished.finally(() => {

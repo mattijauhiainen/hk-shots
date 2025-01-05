@@ -1,7 +1,12 @@
+type PopstateCallback = (
+  filename: string,
+  opts: { hasUAVisualTransition?: boolean }
+) => void;
+
 class Router {
   #previousState = new Date();
-  #backCallbacks: ((filename: string) => void)[] = [];
-  #forwardCallbacks: ((filename: string) => void)[] = [];
+  #backCallbacks: PopstateCallback[] = [];
+  #forwardCallbacks: PopstateCallback[] = [];
   #pushCallbacks: ((filename: string) => void)[] = [];
 
   constructor() {
@@ -10,19 +15,27 @@ class Router {
       const diff = event.state.valueOf() - this.#previousState.valueOf();
 
       if (diff > 0) {
-        this.#forwardCallbacks.forEach((callback) => callback(filename));
+        this.#forwardCallbacks.forEach((callback) =>
+          callback(filename, {
+            hasUAVisualTransition: event.hasUAVisualTransition,
+          })
+        );
       } else {
-        this.#backCallbacks.forEach((callback) => callback(filename));
+        this.#backCallbacks.forEach((callback) =>
+          callback(filename, {
+            hasUAVisualTransition: event.hasUAVisualTransition,
+          })
+        );
       }
       this.#previousState = history.state;
     });
   }
 
-  registerBackCallback(callback: (filename: string) => void) {
+  registerBackCallback(callback: PopstateCallback) {
     this.#backCallbacks.push(callback);
   }
 
-  registerForwardCallback(callback: (filename: string) => void) {
+  registerForwardCallback(callback: PopstateCallback) {
     this.#forwardCallbacks.push(callback);
   }
 

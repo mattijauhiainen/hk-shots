@@ -17,3 +17,5 @@ magick convert lantau-sunset.avif -resize 480x480\> thumbnails/lantau-sunset.avi
 ### Make a entry to photoData.ts with for the new photo
 
 sips -g pixelWidth -g pixelHeight lantau-sunset.avif | awk -v filename=$(basename lantau-sunset.avif) '/pixelWidth/ {width=$2} /pixelHeight/ {height=$2} END {print "{\n width: " width ",\n height: " height ",\n filename: \"" filename "\",\n alt: \"\"\n}"}'
+
+### Make 480px, 960px and 1920px
