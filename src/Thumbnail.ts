@@ -66,13 +66,13 @@ export class Thumbnail {
   preloadFullImage() {
     const href = `${window.origin}${this.fullSizeImagePath}`;
     if (
-      document.querySelectorAll(`link[rel="prefetch"][href="${href}"]`).length >
+      document.querySelectorAll(`link[rel="preload"][href="${href}"]`).length >
       0
     ) {
       return;
     }
     const $preloadLink = document.createElement("link");
-    $preloadLink.rel = "prefetch";
+    $preloadLink.rel = "preload";
     $preloadLink.as = "image";
     $preloadLink.href = href;
     document.head.appendChild($preloadLink);
