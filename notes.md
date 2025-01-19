@@ -4,7 +4,7 @@ magick ~/Downloads/lantau-sunset.HEIC ./public/images/lantau-sunset.avif
 
 ### Cap size to max 2000 pixels of height or width using sips
 
-sips -Z 2000 /path/to/input/image.heic --out /path/to/output/image.heic
+sips -Z 2000 /path/to/input/image.heic --out /path/to/output/image.avif
 
 ### Cap size to max 2000 pixels of height or width using magick
 
@@ -19,3 +19,7 @@ magick convert lantau-sunset.avif -resize 480x480\> thumbnails/lantau-sunset.avi
 sips -g pixelWidth -g pixelHeight lantau-sunset.avif | awk -v filename=$(basename lantau-sunset.avif) '/pixelWidth/ {width=$2} /pixelHeight/ {height=$2} END {print "{\n width: " width ",\n height: " height ",\n filename: \"" filename "\",\n alt: \"\"\n}"}'
 
 ### Make 480px, 960px and 1920px
+
+```javascript
+
+```
