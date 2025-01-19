@@ -1,14 +1,5 @@
 import { join, dirname, basename } from "https://deno.land/std/path/mod.ts";
 
-// processFile
-// Function takes a filename as an argument. It will convert the file from whatever
-// image format it is to avif without doing any other changes to it. Conversion
-// and resizing is done using the 'magick' command line tool.
-
-// It will then create 5 distinct versions of the file in avif format. With sizes
-// 2000, 1800, 1500, 1200, 800 it will create five versions of the file, where the
-// file is resized so that it's larger dimension matches the size from that list,
-// and the other dimension is scaled down according to files original aspect ratio.
 async function processFile(filename: string) {
   const __dirname = dirname(new URL(import.meta.url).pathname);
   const originalPath = join(__dirname, "../originals", filename);
@@ -21,8 +12,7 @@ async function processFile(filename: string) {
   await convertToAvif(originalPath, avifPath);
   await createThumbnail(originalPath);
   const descriptor = await getFileDescriptor(avifPath);
-  const photoData = [descriptor];
-  await writeTemplate(photoData);
+  return descriptor;
 }
 
 async function writeTemplate(photoData: any) {
@@ -127,4 +117,19 @@ async function getFileDescriptor(avifPath: string) {
 // }
 
 console.log("Processing files...");
-processFile(Deno.args[0]);
+
+async function processDirectory(directoryPath: string) {
+  const photoData = [];
+  for await (const entry of Deno.readDir(directoryPath)) {
+    if (entry.isFile && entry.name !== ".DS_Store") {
+      console.log("Processsing", entry.name);
+      const descriptor = await processFile(basename(entry.name));
+      photoData.push(descriptor);
+    }
+  }
+  await writeTemplate(photoData);
+}
+
+await processDirectory(Deno.args[0]);
+
+// processFile(Deno.args[0]);
