@@ -1,18 +1,35 @@
 import { join, dirname, basename } from "https://deno.land/std/path/mod.ts";
 
-async function processFile(filename: string) {
-  const __dirname = dirname(new URL(import.meta.url).pathname);
-  const originalPath = join(__dirname, "../originals", filename);
-  const avifPath = join(
-    __dirname,
-    "../public/images",
-    filename.replace(/\.[^.]+$/, ".avif")
-  );
+async function addCopyright(filename: string) {
+  console.log("Adding metadata to", filename);
+  const process = Deno.run({
+    cmd: [
+      "bash",
+      "-c",
+      `/Users/matti/Downloads/Image-ExifTool-13.14/exiftool -overwrite_original -creator='Matti Jauhiainen' \
+-copyrightowner='Matti Jauhiainen' \
+-copyrightnotice='(c)2025 Matti Jauhiainen, All Rights Reserved' \
+-creditline='(c)2025 Matti Jauhiainen' \
+${filename}`,
+    ],
+    stdout: "piped",
+    stderr: "piped",
+  });
+  const { code } = await process.status();
 
-  await convertToAvif(originalPath, avifPath);
-  await createThumbnail(originalPath);
-  const descriptor = await getFileDescriptor(avifPath);
-  return descriptor;
+  // Read the output and error streams
+  const rawOutput = await process.output();
+  const rawError = await process.stderrOutput();
+
+  // Decode the output and error messages
+  const output = new TextDecoder().decode(rawOutput);
+  const error = new TextDecoder().decode(rawError);
+
+  // Log the output and error messages
+  if (error?.trim()) console.log("Error:", error);
+
+  // Close the process
+  process.close();
 }
 
 async function writeTemplate(photoData: any) {
@@ -27,6 +44,22 @@ export type Photo = {
 export const photoData: Photo[] = ${JSON.stringify(photoData, null, 2)};
 `;
   await Deno.writeTextFile("photoData.ts", photoDataTs);
+}
+
+async function processFile(filename: string) {
+  const __dirname = dirname(new URL(import.meta.url).pathname);
+  const originalPath = join(__dirname, "../originals", filename);
+  await addCopyright(originalPath);
+  const avifPath = join(
+    __dirname,
+    "../public/images",
+    filename.replace(/\.[^.]+$/, ".avif")
+  );
+
+  await convertToAvif(originalPath, avifPath);
+  await createThumbnail(originalPath);
+  const descriptor = await getFileDescriptor(avifPath);
+  return descriptor;
 }
 
 async function convertToAvif(originalPath: string, avifPath: string) {

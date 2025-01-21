@@ -159,6 +159,7 @@ h1 {
     margin at the bottom 
   */
   display: block;
+  max-width: 1800px;
 }
 
 #expanded-photo-container img.horizontal {

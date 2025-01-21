@@ -9,6 +9,12 @@ export const photoData: Photo[] = [
   {
     "width": 2000,
     "height": 1124,
+    "filename": "jordan-school.avif",
+    "alt": ""
+  },
+  {
+    "width": 2000,
+    "height": 1124,
     "filename": "kornhill.avif",
     "alt": ""
   },
@@ -37,6 +43,12 @@ export const photoData: Photo[] = [
     "alt": ""
   },
   {
+    "width": 1333,
+    "height": 2000,
+    "filename": "jordan-minibus.avif",
+    "alt": ""
+  },
+  {
     "width": 2000,
     "height": 1124,
     "filename": "aberdeen-jumbo.avif",
@@ -46,6 +58,12 @@ export const photoData: Photo[] = [
     "width": 2000,
     "height": 1124,
     "filename": "autumn-foliage.avif",
+    "alt": ""
+  },
+  {
+    "width": 2000,
+    "height": 1124,
+    "filename": "yellow-hill.avif",
     "alt": ""
   },
   {
@@ -103,6 +121,12 @@ export const photoData: Photo[] = [
     "alt": ""
   },
   {
+    "width": 1999,
+    "height": 2000,
+    "filename": "sham-shui-po-men.avif",
+    "alt": ""
+  },
+  {
     "width": 2000,
     "height": 1124,
     "filename": "sharp-island.avif",
@@ -153,6 +177,18 @@ export const photoData: Photo[] = [
   {
     "width": 2000,
     "height": 1124,
+    "filename": "austin-taxis.avif",
+    "alt": ""
+  },
+  {
+    "width": 1927,
+    "height": 2000,
+    "filename": "taxis-tst.avif",
+    "alt": ""
+  },
+  {
+    "width": 2000,
+    "height": 1124,
     "filename": "cheung-chau.avif",
     "alt": ""
   },
@@ -176,6 +212,12 @@ export const photoData: Photo[] = [
   },
   {
     "width": 2000,
+    "height": 1415,
+    "filename": "mei-foo-icc.avif",
+    "alt": ""
+  },
+  {
+    "width": 2000,
     "height": 1124,
     "filename": "tst-badminton.avif",
     "alt": ""
@@ -194,8 +236,20 @@ export const photoData: Photo[] = [
   },
   {
     "width": 2000,
+    "height": 1500,
+    "filename": "tai-mo-shan-clouds.avif",
+    "alt": ""
+  },
+  {
+    "width": 2000,
     "height": 1124,
     "filename": "sai-kung-taxis.avif",
+    "alt": ""
+  },
+  {
+    "width": 1500,
+    "height": 2000,
+    "filename": "lamma-lizard.avif",
     "alt": ""
   },
   {
