@@ -63,12 +63,6 @@ export const photoData: Photo[] = [
   {
     "width": 2000,
     "height": 1124,
-    "filename": "yellow-hill.avif",
-    "alt": ""
-  },
-  {
-    "width": 2000,
-    "height": 1124,
     "filename": "jordan-houses.avif",
     "alt": ""
   },
@@ -189,13 +183,19 @@ export const photoData: Photo[] = [
   {
     "width": 2000,
     "height": 1124,
-    "filename": "cheung-chau.avif",
+    "filename": "tst-badminton.avif",
     "alt": ""
   },
   {
     "width": 2000,
     "height": 1124,
     "filename": "golf-course.avif",
+    "alt": ""
+  },
+  {
+    "width": 2000,
+    "height": 1124,
+    "filename": "cheung-chau.avif",
     "alt": ""
   },
   {
@@ -219,12 +219,6 @@ export const photoData: Photo[] = [
   {
     "width": 2000,
     "height": 1124,
-    "filename": "tst-badminton.avif",
-    "alt": ""
-  },
-  {
-    "width": 2000,
-    "height": 1124,
     "filename": "golden-hour.avif",
     "alt": ""
   },
@@ -241,15 +235,15 @@ export const photoData: Photo[] = [
     "alt": ""
   },
   {
-    "width": 2000,
-    "height": 1124,
-    "filename": "sai-kung-taxis.avif",
-    "alt": ""
-  },
-  {
     "width": 1500,
     "height": 2000,
     "filename": "lamma-lizard.avif",
+    "alt": ""
+  },
+  {
+    "width": 2000,
+    "height": 1124,
+    "filename": "sai-kung-taxis.avif",
     "alt": ""
   },
   {
