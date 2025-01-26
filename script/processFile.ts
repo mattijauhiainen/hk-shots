@@ -1,3 +1,4 @@
+/// <reference lib="deno.ns" />
 import { join, dirname, basename } from "https://deno.land/std/path/mod.ts";
 
 async function addCopyright(filename: string) {

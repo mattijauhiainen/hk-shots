@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:photos": "deno run --allow-read --allow-write --allow-run script/processFile.ts ./originals"
   },
   "devDependencies": {
     "typescript": "~5.6.2",
