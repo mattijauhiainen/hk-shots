@@ -37,6 +37,12 @@ export const photoData: Photo[] = [
     "alt": ""
   },
   {
+    "width": 1500,
+    "height": 2000,
+    "filename": "kornhill-house.avif",
+    "alt": ""
+  },
+  {
     "width": 2000,
     "height": 1124,
     "filename": "plover-cove-dam.avif",
@@ -46,6 +52,12 @@ export const photoData: Photo[] = [
     "width": 1333,
     "height": 2000,
     "filename": "jordan-minibus.avif",
+    "alt": ""
+  },
+  {
+    "width": 1540,
+    "height": 2000,
+    "filename": "scaffolding.avif",
     "alt": ""
   },
   {
@@ -94,6 +106,12 @@ export const photoData: Photo[] = [
     "width": 2000,
     "height": 1124,
     "filename": "tai-mei-tuk-dam.avif",
+    "alt": ""
+  },
+  {
+    "width": 1500,
+    "height": 2000,
+    "filename": "monster-house.avif",
     "alt": ""
   },
   {
@@ -182,6 +200,12 @@ export const photoData: Photo[] = [
   },
   {
     "width": 2000,
+    "height": 1500,
+    "filename": "clockenflap.avif",
+    "alt": ""
+  },
+  {
+    "width": 2000,
     "height": 1124,
     "filename": "tst-badminton.avif",
     "alt": ""
@@ -196,6 +220,12 @@ export const photoData: Photo[] = [
     "width": 2000,
     "height": 1124,
     "filename": "cheung-chau.avif",
+    "alt": ""
+  },
+  {
+    "width": 2000,
+    "height": 1500,
+    "filename": "monster-house-sign.avif",
     "alt": ""
   },
   {

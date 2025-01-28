@@ -8,7 +8,7 @@ type Descriptor = {
   height: number;
 };
 
-async function writeTemplate(photoData: any) {
+async function writeTemplate(photoData: Descriptor[]) {
   console.log("Writing the template");
   const photoDataTs = `
 export type Photo = {
@@ -19,7 +19,7 @@ export type Photo = {
 };
 export const photoData: Photo[] = ${JSON.stringify(photoData, null, 2)};
 `;
-  await Deno.writeTextFile("photoData.ts", photoDataTs);
+  await Deno.writeTextFile("../src/photoData.ts", photoDataTs);
 }
 
 async function processFile(filename: string) {
@@ -34,6 +34,7 @@ async function processFile(filename: string) {
   );
 
   await convertToAvif(originalPath, avifPath);
+  await createSourceSet(originalPath, avifPath);
   await createThumbnail(originalPath);
   return await getFileDescriptor(avifPath);
 }
@@ -60,6 +61,20 @@ async function convertToAvif(originalPath: string, avifPath: string) {
     cmd: ["magick", originalPath, "-resize", "2000x2000\\>", avifPath],
   });
   console.log("Converted to avif");
+}
+
+async function createSourceSet(originalPath: string, avifPath: string) {
+  console.log("Creating source set for", originalPath);
+  const sizes = [1800, 1500, 1200, 800];
+  for (const size of sizes) {
+    const resizedPath = `${avifPath.replace(/\.[^.]+$/, `_${size}.avif`)}`;
+
+    // Resize the file
+    await run({
+      cmd: ["magick", originalPath, "-resize", `${size}x${size}>`, resizedPath],
+    });
+  }
+  console.log("Source set created");
 }
 
 async function createThumbnail(originalPath) {
@@ -110,7 +125,7 @@ async function processDirectory(directoryPath: string) {
   const photoData: Descriptor[] = [];
   for await (const entry of Deno.readDir(directoryPath)) {
     if (entry.isFile && entry.name !== ".DS_Store") {
-      console.log("Processsing", entry.name);
+      console.log("Processing", entry.name);
       const descriptor = await processFile(basename(entry.name));
       photoData.push(descriptor);
     }

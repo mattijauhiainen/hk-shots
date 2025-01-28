@@ -1,4 +1,5 @@
 import type { ExpandedPhoto } from "./ExpandedPhoto";
+import { getSrcset } from "./getSrcset";
 import { router } from "./router";
 
 export class Thumbnail {
@@ -75,6 +76,8 @@ export class Thumbnail {
     $preloadLink.rel = "preload";
     $preloadLink.as = "image";
     $preloadLink.href = href;
+    $preloadLink.imageSizes = "(min-width: 1800px) 1800px, 100vw";
+    $preloadLink.imageSrcset = getSrcset(this.fullSizeImagePath);
     document.head.appendChild($preloadLink);
   }
 

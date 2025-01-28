@@ -1,3 +1,4 @@
+import { getSrcset } from "./getSrcset";
 import { router } from "./router";
 import type { Thumbnail } from "./Thumbnail";
 
@@ -26,6 +27,8 @@ export class ExpandedPhoto {
     }
     this.#imageElement.style.aspectRatio = this.#thumbnail.aspectRatio;
     this.#imageElement.src = this.#thumbnail.fullSizeImagePath;
+
+    this.#imageElement.srcset = getSrcset(this.#thumbnail.fullSizeImagePath);
     this.#imageElement.alt = this.#thumbnail.altAttribute;
     this.#captionElement.textContent =
       this.#thumbnail.altAttribute +
