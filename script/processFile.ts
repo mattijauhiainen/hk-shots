@@ -108,19 +108,6 @@ async function getFileDescriptor(avifPath: string) {
   return descriptor;
 }
 
-// const sizes = [2000, 1800, 1500, 1200, 800];
-// for (const size of sizes) {
-//   const resizedPath = `images/avif/${filename.replace(
-//     /\.[^.]+$/,
-//     `_${size}.avif`
-//   )}`;
-
-//   // Resize the file
-//   Deno.run({
-//     cmd: ["magick", avifPath, "-resize", `${size}x${size}>`, resizedPath],
-//   });
-// }
-
 async function processDirectory(directoryPath: string) {
   const photoData: Descriptor[] = [];
   for await (const entry of Deno.readDir(directoryPath)) {
