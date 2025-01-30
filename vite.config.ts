@@ -6,9 +6,6 @@ export default defineConfig(({ mode }) => {
     return {
       ...config,
       base: "/hk-shots/",
-      define: {
-        "process.env.URL_PATH_SUFFIX": JSON.stringify("hk-shots"),
-      },
     };
   }
   return config;
