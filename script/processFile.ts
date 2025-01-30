@@ -8,20 +8,6 @@ type Descriptor = {
   height: number;
 };
 
-async function writeTemplate(photoData: Descriptor[]) {
-  console.log("Writing the template");
-  const photoDataTs = `
-export type Photo = {
-  filename: string;
-  alt: string;
-  width: number;
-  height: number;
-};
-export const photoData: Photo[] = ${JSON.stringify(photoData, null, 2)};
-`;
-  await Deno.writeTextFile("../src/photoData.ts", photoDataTs);
-}
-
 async function processFile(filename: string) {
   console.log("Processing file", filename);
   const __dirname = dirname(new URL(import.meta.url).pathname);
@@ -117,7 +103,41 @@ async function processDirectory(directoryPath: string) {
       photoData.push(descriptor);
     }
   }
-  await writeTemplate(photoData);
+  await writeHTMLTemplate(photoData);
+}
+
+async function writeHTMLTemplate(photoData: Descriptor[]) {
+  console.log("Writing the template");
+  let template = "";
+  for (const photo of photoData) {
+    const { filename, alt, width, height } = photo;
+    const fullPath = `images/thumbnails/${filename}`;
+    const elementMarkup = `
+        <li>
+          <a 
+            href="#${filename}" 
+            data-filename="${filename}" 
+            data-is-vertical="${height > width}"
+            data-width="${width}"
+            data-height="${height}"
+          >
+          <img
+            src="${fullPath}"
+            alt="${alt}"
+          />
+          </a>
+        </li>`;
+    template += elementMarkup + "\n";
+  }
+  // Read the index.template.html file into a string
+  const __dirname = dirname(new URL(import.meta.url).pathname);
+  const templatePath = join(__dirname, "../index.template.html");
+  let indexTemplate = await Deno.readTextFile(templatePath);
+  // replace the <!-- thumbnails --> placeholder with the template
+  indexTemplate = indexTemplate.replace("<!-- thumbnails -->", template);
+  // Write the template to the index.html file
+  await Deno.writeTextFile("./index.html", indexTemplate);
+  console.log('Template written to "index.html"');
 }
 
 await processDirectory(Deno.args[0]);
