@@ -63,7 +63,19 @@ export class Thumbnail {
     this.#imageElement.style.viewTransitionName = name;
   }
 
+  hasBeenPreloaded() {
+    const href = `${window.origin}${this.fullSizeImagePath}`;
+    if (
+      document.querySelectorAll(`link[rel="preload"][href="${href}"]`).length >
+      0
+    ) {
+      return true;
+    }
+    return false;
+  }
+
   preloadFullImage() {
+    if (this.hasBeenPreloaded()) return;
     const href = `${window.origin}${this.fullSizeImagePath}`;
     if (
       document.querySelectorAll(`link[rel="preload"][href="${href}"]`).length >

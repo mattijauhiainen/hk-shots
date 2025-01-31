@@ -59,8 +59,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     const thumbnailIndex = thumbnails.findIndex(
       (thumbnail) => thumbnail.filename === filename
     );
-    thumbnails[thumbnailIndex + 1]?.preloadFullImage();
-    thumbnails[thumbnailIndex - 1]?.preloadFullImage();
+    if (thumbnailIndex === -1) {
+      return;
+    }
+    if (thumbnails[thumbnailIndex].hasBeenPreloaded()) {
+      thumbnails[thumbnailIndex + 1]?.preloadFullImage();
+      thumbnails[thumbnailIndex - 1]?.preloadFullImage();
+    } else {
+      setTimeout(() => {
+        thumbnails[thumbnailIndex + 1]?.preloadFullImage();
+        thumbnails[thumbnailIndex - 1]?.preloadFullImage();
+      }, 300);
+    }
   });
 });
 
