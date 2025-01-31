@@ -124,6 +124,7 @@ async function writeHTMLTemplate(photoData: Descriptor[]) {
           <img
             src="${fullPath}"
             alt="${alt}"
+            loading="lazy"
           />
           </a>
         </li>`;
