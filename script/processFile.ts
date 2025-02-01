@@ -1,5 +1,6 @@
 import { join, dirname, basename } from "https://deno.land/std/path/mod.ts";
 import { run } from "./run.ts";
+import { altAttributes } from "./altAttributes.ts";
 
 type Descriptor = {
   filename: string;
@@ -89,6 +90,7 @@ async function getFileDescriptor(avifPath: string) {
   });
 
   const descriptor = JSON.parse(output) as Descriptor;
+  descriptor.alt = altAttributes[descriptor.filename] ?? "";
 
   console.log("Got file descriptor");
   return descriptor;

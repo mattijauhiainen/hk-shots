@@ -32,7 +32,7 @@ export class ExpandedPhoto {
     this.#imageElement.alt = this.#thumbnail.altAttribute;
     this.#captionElement.textContent =
       this.#thumbnail.altAttribute +
-      " 2024 Matti Jauhiainen. All rights reserved";
+      " 2024 Matti Jauhiainen. All rights reserved.";
     this.#updatePhotoOrientation();
   }
 
