@@ -70,7 +70,7 @@ export class ExpandedPhoto {
       if (!skipTransition) this.#thumbnail!.viewTransitionName = "photo";
       window.scrollTo(0, parseInt(scrollY || "0") * -1);
     };
-    if (skipTransition) {
+    if (skipTransition || !document.startViewTransition) {
       domUpdate();
       this.photo = undefined;
     }

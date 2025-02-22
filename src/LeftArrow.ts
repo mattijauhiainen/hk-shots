@@ -28,11 +28,16 @@ export class LeftArrow {
 
     const previousThumbnail = this.#thumbnails[currentIndex - 1];
     router.push(previousThumbnail.filename);
+    const domUpdate = () => {
+      this.#expandedPhoto.photo = previousThumbnail;
+    };
+    if (!document.startViewTransition) {
+      domUpdate();
+      return;
+    }
     document.startViewTransition({
       // @ts-expect-error
-      update: () => {
-        this.#expandedPhoto.photo = previousThumbnail;
-      },
+      update: domUpdate,
       types: ["backward"],
     });
   }

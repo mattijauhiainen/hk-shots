@@ -28,6 +28,13 @@ export class RightArrow {
 
     const nextThumbnail = this.#thumbnails[currentIndex + 1];
     router.push(nextThumbnail.filename);
+    const domUpdate = () => {
+      this.#expandedPhoto.photo = nextThumbnail;
+    };
+    if (!document.startViewTransition) {
+      domUpdate();
+      return;
+    }
     document.startViewTransition({
       // @ts-expect-error
       update: () => {

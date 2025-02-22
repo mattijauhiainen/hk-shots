@@ -100,7 +100,7 @@ export class Thumbnail {
       this.#expandedPhoto.photo = this;
       this.#expandedPhoto.showModal();
     };
-    if (skipTransition) {
+    if (skipTransition || !document.startViewTransition) {
       domUpdate();
       return Promise.resolve();
     }
